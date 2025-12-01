@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    image: simple-nginx
+    ports:
+      - "8080:80"
+      - "${SSH_PORT:-24242}:22"
+    environment:
+      - SSH_PASSWORD
+    restart: unless-stopped
