@@ -6,7 +6,7 @@
 #    By: ykeciri <ykeciri@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/12/01 08:49:27 by ykeciri           #+#    #+#              #
-#    Updated: 2025/12/01 11:13:26 by ykeciri          ###   ########.fr        #
+#    Updated: 2025/12/01 14:05:33 by ykeciri          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ logs:
 stop:
 	docker compose down
 
-clear:
+clear: stop
 	docker image prune --force
 	docker image prune -a --force
 	
