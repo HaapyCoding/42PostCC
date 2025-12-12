@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 16:09:09 by haapycoding       #+#    #+#             */
-/*   Updated: 2025/12/09 08:22:02 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/12 13:52:32 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,7 @@ type Industry struct {
 	Name string
 }
 
-func main() {
-
-	/* ************************************************************************** */
-	/*                                FLAG PARSING                                */
-	/* ************************************************************************** */
-
+func setFlags() (string, int, []string, error) {
 	recursiveFlag := flag.Bool("r", false, "Recursively downloads the images in a URL received as a parameter")
 	lenghtFlag := flag.Int("l", 5, "Indicates the maximum depth level of the recursive download. (Needs the -r flags)")
 	pathFlag := flag.String("p", "./data/", " Indicates the path where the downloaded files will be saved.")
@@ -64,8 +59,8 @@ func main() {
 	args := flag.Args()
 
 	if len(args) != 1 || args[0] == "" {
-		fmt.Printf("YOU NEED TO GIVE A URL !\n\nUsage of spider : \n\t /spider [-rlp] URL\n You can use the -h flag to see the help page.\n")
-		return
+		// fmt.Printf("YOU NEED TO GIVE A URL !\n\nUsage of spider : \n\t /spider [-rlp] URL\n You can use the -h flag to see the help page.\n")
+		return "", 0, nil, fmt.Errorf("YOU NEED TO GIVE A URL !\n\nUsage of spider : \n\t /spider [-rlp] URL\n You can use the -h flag to see the help page.\n")
 	}
 
 	maxDepth := 1
@@ -77,6 +72,20 @@ func main() {
 		}
 	}
 	working_dir := *pathFlag
+
+	return working_dir, maxDepth, args, nil
+}
+
+func main() {
+
+	/* ************************************************************************** */
+	/*                                FLAG PARSING                                */
+	/* ************************************************************************** */
+
+	working_dir, maxDepth, args, err := setFlags()
+	if (err != nil) {
+		return
+	}
 
 	/* ************************************************************************** */
 	/*                              DECLARING FUNCTIONS                           */
