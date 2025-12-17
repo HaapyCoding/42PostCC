@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 09:23:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/12/09 10:16:50 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/12 14:00:44 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 struct Bank
 {
 	private :
-		size_t _liquidity;
-		std::vector<Account *> _clientAccounts;
+		size_t liquidity;
+		std::vector<Account *> clientAccounts;
 		
 	public :
 		Bank();

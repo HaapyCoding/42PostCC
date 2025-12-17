@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 09:00:51 by codespace         #+#    #+#             */
-/*   Updated: 2025/12/09 09:46:06 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/12 14:00:23 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@
 struct Account
 {
 	private :
-		size_t _id = 0;
-		size_t _value;
+		size_t id = 0;
+		size_t value;
 		void _setId();
-		void _setValue(size_t p_value) { _value = p_value; }
+		void _setValue(size_t p_value) { value = p_value; }
 	public :
 		size_t getId() const;
 		size_t getValue() const;

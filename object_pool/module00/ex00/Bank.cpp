@@ -6,7 +6,7 @@
 /*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 09:35:53 by codespace         #+#    #+#             */
-/*   Updated: 2025/12/12 13:53:29 by codespace        ###   ########.fr       */
+/*   Updated: 2025/12/12 13:53:53 by codespace        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@ Bank::Bank() : _liquidity(0)
 {
 	
 }
-
-
-
-
-
-
 
 std::ostream& operator << (std::ostream& p_os, const Bank& p_bank)
 {
