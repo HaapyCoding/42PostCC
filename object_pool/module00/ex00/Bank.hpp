@@ -3,35 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   Bank.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ykeciri <ykeciri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 09:23:19 by codespace         #+#    #+#             */
-/*   Updated: 2025/12/12 14:00:44 by codespace        ###   ########.fr       */
+/*   Updated: 2026/11/24 23:36:57 by ykeciri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BANK_HPP
-# define BANK_HPP
+#pragma once
 
-# include "Account.hpp"
+#include <iostream>
+#include <vector>
 
-struct Bank
-{
-	private :
-		size_t liquidity;
-		std::vector<Account *> clientAccounts;
-		
-	public :
-		Bank();
-		~Bank();
-		void addAccount(Account* p_account);
-		void removeAccount(size_t p_id);
-		size_t getLiquidity() const;
-		size_t getNumberOfAccounts() const;
-		size_t giveLoan(size_t p_amount, size_t p_id);
-	
-	friend std::ostream& operator << (std::ostream& p_os, const Bank& p_bank);
-	
+class Bank {
+public:
+	class	Account;
+	class	Loan;
+private:
+
+	float					_fund;
+	std::vector<Account*>	_accounts;
+	std::vector<Loan*>		_loans;
+
+	Account*				CreateAccount();
+	void					DeleteAccount(Account* account);
+	bool					addLiquidity(Account* account, float liquidity);
+	void					AddFund(float amount);
+
+	Account* operator[](int account_id);
+	Bank& operator=(const Bank& src);
+
+	Bank(Bank &src);
+public:
+	class Loan{
+			public:
+				~Loan();
+
+				
+				const Bank&	getBank() const;
+				Account	getAccount() const;
+				void	refundAmount(int amount);
+			private:
+				Loan();
+				Loan(Account* account, Bank* bank,float amount);
+
+				friend class Bank;
+				float	_amount;
+				Account* _account;
+				Bank* _bank;
+		};
+
+	class Account{
+		private:
+			friend class Bank;
+			float				_liquidity;
+			std::vector<Loan>	_myLoans;
+			int					_account_id;
+
+			float				GetMyFunds( void );
+		public:
+			Account(int id);
+			~Account();
+	};
+
+	Bank();
+	~Bank();
+
+	bool	MakeDeposit(Account* acc, float amount);
+	bool	AskForLoan(Account*  acc, float amountAsked);
+	bool	checkLiquidity(float liquidity);
+
 };
 
-#endif

@@ -2,4 +2,4 @@
 
 ---
 
-Post Common Core sursus Of 42Paris
+Post Common Core cursus Of 42Paris
