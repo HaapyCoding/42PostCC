@@ -6,7 +6,7 @@
 /*   By: ykeciri <ykeciri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/09 09:23:19 by codespace         #+#    #+#             */
-/*   Updated: 2026/11/24 23:36:57 by ykeciri          ###   ########.fr       */
+/*   Updated: 2026/11/28 14:01:02 by ykeciri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #include <iostream>
 #include <vector>
+#include <stddef.h>
+#include "Colors.hpp"
 
 class Bank {
 public:
@@ -25,53 +27,60 @@ private:
 	std::vector<Account*>	_accounts;
 	std::vector<Loan*>		_loans;
 
-	Account*				CreateAccount();
-	void					DeleteAccount(Account* account);
-	bool					addLiquidity(Account* account, float liquidity);
-	void					AddFund(float amount);
-
-	Account* operator[](int account_id);
 	Bank& operator=(const Bank& src);
 
 	Bank(Bank &src);
 public:
 	class Loan{
 			public:
-				~Loan();
-
-				
-				const Bank&	getBank() const;
-				Account	getAccount() const;
+				~Loan( void );
+				Bank*	getBank( void ) ;
+				Account*	getAccount( void );
 				void	refundAmount(int amount);
+				float	getAmount( void ) const;
 			private:
-				Loan();
+				Loan( void );
 				Loan(Account* account, Bank* bank,float amount);
 
-				friend class Bank;
-				float	_amount;
-				Account* _account;
-				Bank* _bank;
+				friend class	Bank;
+
+				float			_amount;
+				Account*		_account;
+				Bank*			_bank;
 		};
 
 	class Account{
 		private:
-			friend class Bank;
+			friend class		Bank;
+
 			float				_liquidity;
-			std::vector<Loan>	_myLoans;
+			std::vector<Loan*>	_myLoans;
 			int					_account_id;
 
-			float				GetMyFunds( void );
+			void				refundLoan(Loan* loan, float amount);
 		public:
 			Account(int id);
+			Account& operator=(const Account& src);
 			~Account();
+
+			float				getMyFunds( void );
+			size_t				getLoanCount( void ) const;
+			Loan*				getLoan(size_t index);
 	};
 
 	Bank();
 	~Bank();
-
-	bool	MakeDeposit(Account* acc, float amount);
-	bool	AskForLoan(Account*  acc, float amountAsked);
-	bool	checkLiquidity(float liquidity);
+	
+	Account*	createAccount( void );
+	Account* operator[](int account_id);
+	bool		makeDeposit(Account* acc, float amount);
+	bool		askForLoan(Account*  acc, float amountAsked);
+	bool		checkLiquidity(float liquidity);
+	void		deleteAccount(Account* account);
+	bool		addLiquidity(Account* account, float liquidity);
+	void		addFund(float amount);
+	float		getFund( void ) const;
+	size_t		getAccountCount( void ) const;
 
 };
 

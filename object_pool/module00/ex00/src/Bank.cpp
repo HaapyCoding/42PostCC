@@ -6,16 +6,16 @@
 /*   By: ykeciri <ykeciri@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/24 16:04:32 by ykeciri           #+#    #+#             */
-/*   Updated: 2026/11/24 23:15:52 by ykeciri          ###   ########.fr       */
+/*   Updated: 2026/11/28 13:57:41 by ykeciri          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Bank.hpp"
 
-Bank::Account* Bank::CreateAccount() {
+Bank::Account* Bank::createAccount( void ) {
 	for (size_t i = 0; i < _accounts.size(); ++i)
 	{
-		if (_accounts[i] == nullptr)
+		if (_accounts[i] == NULL)
 		{
 			Account* new_account = new Bank::Account(static_cast<int>(i));
 			_accounts[i] = new_account;
@@ -28,9 +28,9 @@ Bank::Account* Bank::CreateAccount() {
 	return (new_account);
 }
 
-void Bank::DeleteAccount(Bank::Account* account)
+void Bank::deleteAccount(Bank::Account* account)
 {
-    if (account == nullptr)
+    if (account == NULL)
         return;
 
     int id = account->_account_id;
@@ -42,7 +42,7 @@ void Bank::DeleteAccount(Bank::Account* account)
         return;
 
     delete _accounts[id];
-    _accounts[id] = nullptr;
+    _accounts[id] = NULL;
 }
 
 bool Bank::addLiquidity(Account* account, float liquidity)
@@ -56,7 +56,7 @@ bool Bank::addLiquidity(Account* account, float liquidity)
 	return (0);
 }
 
-void	Bank::AddFund(float amount) {
+void	Bank::addFund(float amount) {
 	this->_fund += amount;
 }
 
@@ -77,8 +77,8 @@ Bank& Bank::operator=(const Bank& src)
 		_accounts.reserve(src._accounts.size());
 		for (size_t i = 0; i < src._accounts.size(); ++i)
 		{
-			if (src._accounts[i] == nullptr)
-				_accounts.push_back(nullptr);
+			if (src._accounts[i] == NULL)
+				_accounts.push_back(NULL);
 			else
 			{
 				Account* copy = new Account(static_cast<int>(i));
@@ -92,3 +92,50 @@ Bank& Bank::operator=(const Bank& src)
 
 Bank::Bank(Bank &src) { *this = src; }
 
+Bank::Bank(void) : _fund(0)
+{
+}
+
+Bank::~Bank(void)
+{
+	for (size_t i = 0; i < _accounts.size(); ++i)
+		delete _accounts[i];
+	_accounts.clear();
+}
+
+bool	Bank::makeDeposit(Account* acc, float amount)
+{
+	float toBank;
+	toBank = amount * 0.05;
+	amount -= toBank;
+	acc->_liquidity = amount;
+	this->_fund = toBank;
+	return (1);
+}
+
+bool	Bank::askForLoan(Account*  acc, float amountAsked)
+{
+	if (amountAsked > _fund)
+	{
+		std::cout << FRED("the bank don't have enough fund") << std::endl;
+		return (0);
+	}
+	acc->_myLoans.push_back(new Loan(acc, this, amountAsked));
+	std::cout << FGRN("A new Loan has been granted to Account [") << FGRN(acc->_account_id) << FGRN("]") << std::endl;
+	return (1);
+}
+
+bool	Bank::checkLiquidity(float liquidity)
+{
+	return (liquidity < _fund);
+}
+
+float Bank::getFund(void) const
+{
+	return (_fund);
+}
+
+size_t Bank::getAccountCount(void) const
+{
+	return (_accounts.size());
+}
